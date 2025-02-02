@@ -1,0 +1,6 @@
+.vscode
+build/*
+impl/*
+!impl/4bit_process_config.json
+obj_dir/*
+*.user
