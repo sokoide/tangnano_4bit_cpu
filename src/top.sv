@@ -12,6 +12,7 @@ module top(
   logic [3:0]  btn;
   logic [23:0] counter;
 
+  assign w_data = 8'd0;
   assign btn = 4'b0000;
 
   // output port leds are negatives of internal signal led
@@ -35,6 +36,9 @@ module top(
     .led   (led),
     .adr   (adr),
     .dout  (r_data)
+`ifdef DEBUG_MODE
+    , .debug_regs()
+`endif
   );
 
   // update counter

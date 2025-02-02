@@ -8,11 +8,11 @@ module ram(
 );
 
   // 8bit x 16 words memory space
-  logic [7:0] mem [15:0];
+  logic [7:0] mem [255:0];
 
   initial begin
-    mem[0] <= 8'b01100_110;// inc R6		
-    mem[1] <= 8'b1001_0000;// jmp 0
+    mem[0] = 8'b01100_110;// inc R6
+    mem[1] = 8'b1001_0000;// jmp 0
   end
 
   // write (sync clock)

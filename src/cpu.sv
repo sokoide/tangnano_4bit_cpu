@@ -5,6 +5,10 @@ module cpu(
   output logic [3:0]   led,
   output logic [3:0]   adr,
   input  logic [7:0]   dout
+
+`ifdef DEBUG_MODE
+  , output logic [3:0] debug_regs [7:0]  // Debug output (only in debug mode)
+`endif
 );
 
   // Decode the instruction fields from dout.
@@ -16,6 +20,11 @@ module cpu(
   // Internal registers.
   logic        c_flag;
   logic [3:0]  regs [7:0];
+
+`ifdef DEBUG_MODE
+  // Assign debug output for testing
+  assign debug_regs = regs;
+`endif
 
   // Output assignments.
   assign led = regs[6];
@@ -38,7 +47,9 @@ module cpu(
         // ADD: Add regs[sss] to regs[0] and set the carry flag if the sum exceeds 15.
         5'b01000: begin
           regs[0] <= regs[0] + regs[sss];
+          /* verilator lint_off CMPCONST */
           c_flag  <= ((regs[0] + regs[sss]) > 4'd15) ? 1'b1 : 1'b0;
+          /* verilator lint_on CMPCONST */
         end
 
         // OR: Logical OR between regs[0] and regs[sss].
