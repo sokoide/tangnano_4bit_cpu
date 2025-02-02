@@ -15,7 +15,7 @@ module tb_cpu(
   ram ram_inst (
     .clk    (clk),
     .we     (1'b0),
-    .r_addr ({4'b0000, adr}),  // redeive from CPU
+    .r_addr ({4'b0000, adr}),  // receive from CPU
     .r_data (r_data),
     .w_addr (8'd0),
     .w_data (8'd0)
@@ -39,7 +39,7 @@ module tb_cpu(
     btn = 4'b0000;
 
     reset = 0; // active
-    repeat (10) @(posedge clk);  // Wait for 10 clock cycles
+    repeat (10) @(posedge clk);  // wait for 10 clock cycles
     reset = 1; // release
 
     // afetr 10 cycles (reset), adr must be 0
