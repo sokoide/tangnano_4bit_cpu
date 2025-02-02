@@ -13,15 +13,20 @@ int main(int argc, char** argv) {
     // Initialize Verilator with command-line arguments.
     Verilated::commandArgs(argc, argv);
 
+    // Call it before `new` to enable wave trace
+    Verilated::traceEverOn(true);
+
     // Create an instance of the top-level module.
     Vtb_cpu* top = new Vtb_cpu;
+    top->clk = 1;
 
     // Run the simulation for a fixed number of time units.
     // Adjust the simulation duration as needed to allow your testbench to
     // complete.
-    const vluint64_t sim_end = 10000; // simulation end time units
+    const vluint64_t sim_end = 100; // simulation end time units
 
     while (!Verilated::gotFinish() && main_time < sim_end) {
+        // while (main_time < sim_end) {
         // Evaluate the model.
         top->eval();
 

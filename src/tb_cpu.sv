@@ -10,13 +10,6 @@ module tb_cpu(
   logic [7:0] dout;
   logic [3:0] regs [7:0];
 
-  // reset
-  initial begin
-    reset = 0; // active
-    repeat (10) @(posedge clk);  // Wait for 10 clock cycles
-    reset = 1; // release
-  end
-
   // ram instance
   logic [7:0] r_data;
   ram ram_inst (
@@ -45,8 +38,11 @@ module tb_cpu(
   initial begin
     btn = 4'b0000;
 
-	// afetr 10 cycles (reset), adr must be 0
-    repeat (10) @(posedge clk);
+    reset = 0; // active
+    repeat (10) @(posedge clk);  // Wait for 10 clock cycles
+    reset = 1; // release
+
+    // afetr 10 cycles (reset), adr must be 0
     // test led
     if (led !== 4'b0000) begin
       $display("ERROR: Unexpected led value: %b", led);
@@ -90,8 +86,16 @@ module tb_cpu(
       $stop;
     end
 
+    // get traces some more in the vcd
+    repeat (100) @(posedge clk);
+
     $display("All Test Passed");
     $finish;
+  end
+
+  initial begin
+    $dumpfile("waveform.vcd");
+    $dumpvars(0, cpu_tb);
   end
 
 endmodule

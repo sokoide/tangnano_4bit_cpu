@@ -18,11 +18,7 @@
 ### Test Bench
 
 ```bash
-make clean;TB=1 make run
-```
-
-### Generate Wave
-
-```bash
-make clean;TB=0 make wave
+make clean
+make run
+make wave
 ```
